@@ -1,0 +1,6 @@
+program,source_row,fund,vintage,commitment,paid_in,distributions,distributions_plus_nav,irr_raw,multiple_raw
+private_equity,14,Advent International GPE IX Limited Partnership,2019,"$550,000,000","$531,954,569","$212,438,375","$791,207,239",10.1%,1.5x
+private_equity,18,Advent International GPE VIII-B Limited Partnership,2016,"$500,000,000","$500,000,000","$774,417,264","$1,036,526,653",15.1%,2.1x
+private_equity,19,Advent International GPE X Limited Partnership,2022,"$650,000,000","$434,336,488","$6,902,342","$559,643,916",13.3% [1],1.3x [1]
+private_debt,15,Ares Senior Direct Lending Fund (Delaware) III LP,2024,"$2,300,000,000","$1,025,426,969","$111,241,128","$1,167,626,053",N/M [1],N/M [1]
+private_debt,16,Ares Senior Direct Lending Fund II,2022,"$1,250,000,000","$1,019,058,758","$650,100,308","$1,381,861,562",N/M [1],N/M [1]

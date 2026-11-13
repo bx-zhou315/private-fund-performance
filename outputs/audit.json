@@ -1,0 +1,46 @@
+{
+  "private_debt": {
+    "rows": 66,
+    "multiple_check": {
+      "not testable": 60,
+      "within rounding": 6
+    },
+    "missing_amount_rows": 0,
+    "missing_reported_irr_rows": 60,
+    "nonpositive_paid_in_rows": 0,
+    "negative_amount_rows": 0,
+    "duplicate_fund_name_vintage_rows": 0,
+    "irr_multiple_inconsistent_rows": 6,
+    "early_life_rows": 66,
+    "ranked_quartile_rows": 0,
+    "row_sums_usd": {
+      "commitment": 56735570000,
+      "paid_in": 29384308918,
+      "distributions": 10989500878,
+      "distributions_plus_nav": 37000626199
+    },
+    "published_amount_total": "not supplied in source table"
+  },
+  "private_equity": {
+    "rows": 485,
+    "multiple_check": {
+      "within rounding": 401,
+      "not testable": 84
+    },
+    "missing_amount_rows": 0,
+    "missing_reported_irr_rows": 83,
+    "nonpositive_paid_in_rows": 1,
+    "negative_amount_rows": 0,
+    "duplicate_fund_name_vintage_rows": 0,
+    "irr_multiple_inconsistent_rows": 0,
+    "early_life_rows": 304,
+    "ranked_quartile_rows": 145,
+    "row_sums_usd": {
+      "commitment": 162963141157,
+      "paid_in": 130145793533,
+      "distributions": 78560475497,
+      "distributions_plus_nav": 198163046678
+    },
+    "published_amount_total": "not supplied in source table"
+  }
+}
