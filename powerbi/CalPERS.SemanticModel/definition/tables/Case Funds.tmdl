@@ -1,0 +1,109 @@
+table 'Case Funds'
+
+	measure 'Case Fund Count' = COUNTROWS ( 'Case Funds' ) + 0
+		formatString: #,0
+
+	measure 'Distributed Value' = SELECTEDVALUE ( 'Case Funds'[DPI] )
+		formatString: 0.00"x"
+
+	measure 'Unrealised Value' = SELECTEDVALUE ( 'Case Funds'[RVPI] )
+		formatString: 0.00"x"
+
+	column 'Programme Key'
+		dataType: string
+		sourceColumn: Programme Key
+		summarizeBy: none
+		isHidden
+
+	column Manager
+		dataType: string
+		sourceColumn: Manager
+		summarizeBy: none
+		isHidden
+
+	column Vintage
+		dataType: int64
+		sourceColumn: Vintage
+		summarizeBy: none
+		formatString: 0
+
+	column Fund
+		dataType: string
+		sourceColumn: Fund
+		summarizeBy: none
+		sortByColumn: Vintage
+
+	column 'Legal Name'
+		dataType: string
+		sourceColumn: Legal Name
+		summarizeBy: none
+
+	column DPI
+		dataType: double
+		sourceColumn: DPI
+		summarizeBy: none
+		formatString: 0.00"x"
+
+	column RVPI
+		dataType: double
+		sourceColumn: RVPI
+		summarizeBy: none
+		formatString: 0.00"x"
+
+	column TVPI
+		dataType: double
+		sourceColumn: TVPI
+		summarizeBy: none
+		formatString: 0.00"x"
+
+	column 'Realised Share'
+		dataType: double
+		sourceColumn: Realised Share
+		summarizeBy: none
+		formatString: 0.0%
+
+	column 'Peer n'
+		dataType: int64
+		sourceColumn: Peer n
+		summarizeBy: none
+		formatString: #,0
+
+	column 'Peer Median TVPI'
+		dataType: double
+		sourceColumn: Peer Median TVPI
+		summarizeBy: none
+		formatString: 0.00"x"
+
+	column Quartile
+		dataType: int64
+		sourceColumn: Quartile
+		summarizeBy: none
+		formatString: #,0
+
+	column 'Review Status'
+		dataType: string
+		sourceColumn: Review Status
+		summarizeBy: none
+
+	partition 'Case Funds' = m
+		mode: import
+		source =
+				let
+				    Snapshot = Text.Combine({
+				        "H4sIAAAAAAAC/6WUTW8TMRCG70j8B6snkJzVjL99DE1BESlaGlRxQy4xiaWNU5xNqv57xklUItSGQvfgtWdGmsevZ6Ytq3kJy2Vk",
+				        "H+M9vww5zGPh1yn3tOHvN3nGJ3EeOvYpLCMftWN+dU3Ll7pcxdCldZyx6SKUyNsYC8v732WcpZDZLuzzJpQ+dZHitynesWkf+s36",
+				        "9avbkrahj9/iz03q7/lwto25Z+Pcx5JDn1Y5dFwAev6hvWDjr48GsL2PTdIy9UTSUqocy3qRbjk00nuplTQcG3AOQEmkrXJWamcs",
+				        "BQjjlPcguRDk0MJIsGi4fGBmYRtSF266+Fxe0Dve68GInz1JXL1s0rTNGReNQq0NGE08cPiOrfjbWg/WOURjPOfnq8Wq9Owmdqs7",
+				        "5p7N5/Z848HwFGB1PxACSA1VJiI0UkhL6clqjFXGCrJ64xUICRxlRUQlgXTn4gU6ojhwjgfnJ0Gr/0BKqaUyCpzZkdLjCqXI6gCV",
+				        "k8LvSIXz2nluj+3/qSWVyoFhPHjHTzGS/9EapaJTzkmlq7ZaKIHOuqqtJQUllSs0VlkUViB3tXatoxBNl3qBtGIv7YmOeqqhAEk6",
+				        "pNfHhpAMoqp9I5zTIBF3AUJKug6n7yKU7p516ccR2Cze9HxY4prtR82S8lcitTdORxNGYh0OMadVYaNU4veeTWKepTxndSSxN6PY",
+				        "hTsaOm9rOJu0lBrBKSdsfW+QNDZg1+woqdNJy8rmtbBI8+Qf2cQx21/RKAQaI61X6OujWnRgtak6SWpotLqyKAtKC23+ZPkFI8z4",
+				        "8I8FAAA="
+				    }),
+				    Source = Binary.Decompress(Binary.FromText(Snapshot, BinaryEncoding.Base64), Compression.GZip),
+				    Parsed = Csv.Document(Source, [Delimiter=",", Columns=13, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Parsed, [PromoteAllScalars=true]),
+				    Nulls = Table.ReplaceValue(Header, "", null, Replacer.ReplaceValue, Table.ColumnNames(Header)),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"Programme Key", type text}, {"Manager", type text}, {"Vintage", Int64.Type}, {"Fund", type text}, {"Legal Name", type text}, {"DPI", type number}, {"RVPI", type number}, {"TVPI", type number}, {"Realised Share", type number}, {"Peer n", Int64.Type}, {"Peer Median TVPI", type number}, {"Quartile", Int64.Type}, {"Review Status", type text}}, "en-US")
+				in
+				    Typed

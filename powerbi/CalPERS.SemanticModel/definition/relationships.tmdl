@@ -1,0 +1,23 @@
+relationship 70e9786f-005f-589c-a211-cc5a87cea8de
+	fromColumn: Funds.'Programme Key'
+	toColumn: Programme.'Programme Key'
+
+relationship 745c43c0-67d5-5f0e-94fc-10e23568b564
+	fromColumn: Funds.Vintage
+	toColumn: Vintage.Vintage
+
+relationship bb0ffcfc-5fb9-5c35-bfd8-275ceb278ad2
+	fromColumn: 'Case Funds'.Manager
+	toColumn: Manager.Manager
+
+relationship 732e5991-93e8-5c22-a978-0898f3961b8e
+	fromColumn: 'Case Funds'.'Programme Key'
+	toColumn: Programme.'Programme Key'
+
+relationship 98bcc077-dcce-5ec7-871f-f7cbef825497
+	fromColumn: 'Case Funds'.Vintage
+	toColumn: Vintage.Vintage
+
+relationship 656b3b31-4a09-527d-8faf-03d998760020
+	fromColumn: 'Cash Flow'.'Scenario Key'
+	toColumn: Scenario.'Scenario Key'

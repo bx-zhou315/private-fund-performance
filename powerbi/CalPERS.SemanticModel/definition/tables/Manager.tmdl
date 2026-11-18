@@ -1,0 +1,21 @@
+table Manager
+
+	column Manager
+		dataType: string
+		sourceColumn: Manager
+		summarizeBy: none
+
+	partition Manager = m
+		mode: import
+		source =
+				let
+				    Snapshot = Text.Combine({
+				        "H4sIAAAAAAAC//NNzEtMTy3i5XJMKUvNK1HwzCtJLcpLLMnMz0vMAYoWpRYr+ILV5AKlebkAc01UOjAAAAA="
+				    }),
+				    Source = Binary.Decompress(Binary.FromText(Snapshot, BinaryEncoding.Base64), Compression.GZip),
+				    Parsed = Csv.Document(Source, [Delimiter=",", Columns=1, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Parsed, [PromoteAllScalars=true]),
+				    Nulls = Table.ReplaceValue(Header, "", null, Replacer.ReplaceValue, Table.ColumnNames(Header)),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"Manager", type text}}, "en-US")
+				in
+				    Typed

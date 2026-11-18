@@ -1,0 +1,283 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "1a70a8c87972581c9810",
+  "position": {
+    "x": 24,
+    "y": 470,
+    "width": 1392,
+    "height": 257,
+    "z": 3,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "drillFilterOtherVisuals": true,
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Case Funds"
+                    }
+                  },
+                  "Property": "Fund"
+                }
+              },
+              "queryRef": "Case Funds.Fund",
+              "nativeQueryRef": "Fund"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Case Funds"
+                    }
+                  },
+                  "Property": "Vintage"
+                }
+              },
+              "queryRef": "Case Funds.Vintage",
+              "nativeQueryRef": "Vintage"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Case Funds"
+                    }
+                  },
+                  "Property": "DPI"
+                }
+              },
+              "queryRef": "Case Funds.DPI",
+              "nativeQueryRef": "DPI"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Case Funds"
+                    }
+                  },
+                  "Property": "RVPI"
+                }
+              },
+              "queryRef": "Case Funds.RVPI",
+              "nativeQueryRef": "RVPI"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Case Funds"
+                    }
+                  },
+                  "Property": "TVPI"
+                }
+              },
+              "queryRef": "Case Funds.TVPI",
+              "nativeQueryRef": "TVPI"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Case Funds"
+                    }
+                  },
+                  "Property": "Realised Share"
+                }
+              },
+              "queryRef": "Case Funds.Realised Share",
+              "nativeQueryRef": "Realised Share"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Case Funds"
+                    }
+                  },
+                  "Property": "Peer n"
+                }
+              },
+              "queryRef": "Case Funds.Peer n",
+              "nativeQueryRef": "Peer n"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Case Funds"
+                    }
+                  },
+                  "Property": "Peer Median TVPI"
+                }
+              },
+              "queryRef": "Case Funds.Peer Median TVPI",
+              "nativeQueryRef": "Peer Median TVPI"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Case Funds"
+                    }
+                  },
+                  "Property": "Quartile"
+                }
+              },
+              "queryRef": "Case Funds.Quartile",
+              "nativeQueryRef": "Quartile"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Case Funds"
+                    }
+                  },
+                  "Property": "Review Status"
+                }
+              },
+              "queryRef": "Case Funds.Review Status",
+              "nativeQueryRef": "Review Status"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Case Funds"
+                  }
+                },
+                "Property": "Vintage"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Track record and eligible same-programme, same-vintage peers'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#142C3D'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D4DFE7'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

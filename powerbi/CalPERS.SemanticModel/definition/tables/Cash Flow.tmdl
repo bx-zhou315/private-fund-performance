@@ -1,0 +1,99 @@
+table 'Cash Flow'
+
+	measure 'Cumulative Net Flow' = SELECTEDVALUE ( 'Cash Flow'[Cumulative Net] )
+		formatString: 0.0
+
+	column 'Scenario Key'
+		dataType: string
+		sourceColumn: Scenario Key
+		summarizeBy: none
+		isHidden
+
+	column 'Quarter End'
+		dataType: dateTime
+		sourceColumn: Quarter End
+		summarizeBy: none
+		formatString: yyyy-MM-dd
+
+	column 'Capital Call'
+		dataType: double
+		sourceColumn: Capital Call
+		summarizeBy: none
+		formatString: 0.00
+
+	column Distribution
+		dataType: double
+		sourceColumn: Distribution
+		summarizeBy: none
+		formatString: 0.00
+
+	column NAV
+		dataType: double
+		sourceColumn: NAV
+		summarizeBy: none
+		formatString: 0.00
+
+	column 'Net Cash Flow'
+		dataType: double
+		sourceColumn: Net Cash Flow
+		summarizeBy: none
+		formatString: 0.00
+
+	column 'Cumulative Net'
+		dataType: double
+		sourceColumn: Cumulative Net
+		summarizeBy: none
+		formatString: 0.00
+
+	column 'Benchmark Level'
+		dataType: double
+		sourceColumn: Benchmark Level
+		summarizeBy: none
+		formatString: 0.00
+
+	partition 'Cash Flow' = m
+		mode: import
+		source =
+				let
+				    Snapshot = Text.Combine({
+				        "H4sIAAAAAAAC/62Z3Y7cxhGF7w34HfYBOET/VXX1ZaIkNwkMBAFyv7YG8CJrKZBWDvz2+WpGznRxuFwbiCABw2nOYfepUz+H+scP",
+				        "5w+Pn54+Pvz1/Mvy9y+Pn17Onx7+/OH98u7x308vj88P7x6fn5c/PX1++fT0/ZeXp48flu/+8M/lu/MLK59/fPjL88f/LO++/PTl",
+				        "+fHl6efzAwvLH88ffvjxp8dP/3r42/nn8/O333z/+Pm8lJTbKZdTzUta069/fvfnnKarG7ScUnXoXNZes6aapMTfzQungyt/QG21",
+				        "FDMt4QF6quDkNeekKmbj8oBsrQxJS2lrGTXXXlMDktuSWeGrsZxKXa2lVmSMfHmAWtcq3SQ8YPgDxqpDuSfl6wGGAmF1qQ2MWjWJ",
+				        "gs9dpi1pKsDXukpRqyUVJyivqbL/Zjns/8q9rU2z1pxad/hiIqP1vLS2SpbKSTLw3FVr6lm6LqeW18HOU5UhF/hqd/zrV/47i5A3",
+				        "er+ETWsfPWtfpK4tm6XB4nLirpKkFigHfqzFUquaxwAeGuGqm0kO8Bf2dW0NHC1Zgc8lDfhpbdG8assiEGfLSYGvpat0niWy8pie",
+				        "S+/OfV9Lz7UpzwvwF+65tRBAjufksMVWO38WZYuSe85twIf4UWpKhV+ceHIqQHANfHbtsCqAzPBX7ts6Uu9Nr/AXiQ3VsXRFOiMV",
+				        "aZ3dEwhrJlqrH8V3T6iHX+VMoJOkZoH7/pX7skoTjl2GAQ+W9oKsF2OLfgEN0F2IivJxGORoX7XX1tGL755jNuNHgAb4C/dlrahs",
+				        "SE4uTCW0ljjmYmyRXY0COwgfYdrI0IuM4K3CKGI3lFOE0JIdTZoF+HGFz1BjAq3A2+AghnYWG+vwJ1lDfcAXy4Nc9bztbKO1SnRr",
+				        "X3Ll0YXgDhGZ4a/cc2yk20g6buVRZITm3JfRWOiSa21EkwfXMcxjBHxemyc3vDi8+e7RKLu5wduvdWc1sSRZ4Z6fcRc5Zm0Zfe3o",
+				        "1aonBPCVu1za9QIP+iVByNqqa29EglpSA/y16oDCpjolxB9l0pRY5GuyF6n8VLyukmq+P+hweO6vljkN8HBfkg2OPQL8uMKLdSkp",
+				        "kamEufh96BF4CheCUiTn1a637IBVLtyjSS8CFDjYY4PsKPXUZvgr9xDCVsDIHgdIRCk5eS1B+Ek9El5Z0AoHgfCrckRHEeEL4Au7",
+				        "V4oTsb/Bj6/cz2W+rnXAZaIKXeBl5GKloe555aSKBLrBNYHOFDjk65VwztrxlfsIP0QLFdRDBjzxKLmTFWHlpL7frI0DcJ9chGmp",
+				        "qrYAP7bwpL4M7XIttORVG5Y73IWVk5C1UNarCvfxMIgjy7LKDH/fa2XNxMw1lq+FlpxBVaph5SSFeFFj1XM4dyRAlhkV5CbMkna4",
+				        "F/TMQUf2XSUSrhdhh9w1r5yaOh11dKr3ku0SdopaHhrg77gnmMnVYTS5MdgwLRStj7BwaiRB7lBVzdG5j5JCw6sS0O+o7ytxKql5",
+				        "vx6yUsC7txcLCyeESMUmI5oHluSm2sMbCTOj3zNPFdCeaWsADmoYcIwX1LB54VQ8DMObm1SQYI1SJk7PDT3vEG8rmUjza6Utpn5+",
+				        "IasodPPCKSuBHImnMjMUr/WUKKHXRPQ73m0l5am4JPliVDDyFV6pDvMCEwMxHP5PluIDSWtecKcRysHvaB/eZQcFkd7RvRRTzRuZ",
+				        "GRao1yKJpue0NFu7UGD5UGfse9IHPRAekrNJo0PqaKGg9nmBjq3IlMacdCnaPI0p1/TpG3jZ4Zz6BJf0adqVeIsqubDLHBYKQ4Rr",
+				        "b1woJ6+YuggMnTKA6z0rtEgkTWVf+JXPNeRSl7BQBtqhy2fqKpT7VYcXmmEA36G80ppAqZQVWdOoyZpUCwvAMVkx5pKzC8VrTUwk",
+				        "VICcZ/B7zo2ugIC5l4nVxc2AWrx/zguEMNFkjF5kKFFhrybmsz6Jpe7rXMXrkvSl0o04Ko1k1LAgTH/ohowSV2Lyvu/VIFsA1/sC",
+				        "oCSzePHwWZ6OZASSIM4L6IOdMw0zQnJX9WZGGS7TOObg4752EZxOuRLGAx8krPkgaGGBlorGmSAYflALM7h5K27TOAP4Xlk3zsik",
+				        "l31MWbEgnXaN4uYFZkwytXul5XyXVEOh/uwbeNvhvK29j0oVMvOEpyPTMEqO37slYPIWxtmFHTMn+KRCzQ/YO920i9d++GSvlaxj",
+				        "i6WE75ku3VMNUlcIOsE179Q21/O2w3hxLhmaqxAo9srkQmkp4XvriLK79uCEDuo6rN4u0ox9TzgYHbmKqb76/SCYtHBORPemQ3hH",
+				        "YYSlwH37zfvz8+Mv5/e/xRL/Vh88Qb5phX+P/Y24+w54wp2Xrq6XuQ0J37neiLtrfG+w88rF7BI+9eFta3YD6q7fnVDnlRMBmrkN",
+				        "HndCfcXmTqjzilvb29XG2kbUHXd7e7Xgjpai72FRuThao42h26pbRxtRd0zt7YWCG1ll9KBR+3iAkeUTNoO82xrZgLrnZW/vEdy/",
+				        "Widdaa56GbTdM319dxD964S6b2Fvrw/cthLiBrC/P1DzykYlIN22tjWi7jjX21sDR8UhI8jGmd0xoaWstArdutWIumNYby8L3KTC",
+				        "cWGabjDA/JwgOLOctyY1oN771PkdwdVZMwVUeAe1ceULl/cC0ZtOqHv2dH414Khw7H/9dQBNgv6TnMw7SxpR71zp/EbAUZnVmBfY",
+				        "MajMXpyZipv61olG1DszOr8IcPusaIww+lsYUPFGDZ2lujWgAfXeg87+31HJTwSk7ju7UcEae716/uA7J9Q96znb/nDhtJJojDdo",
+				        "dus2I+hdi5zNfrhwBRAZOiKEbD1mBN3pjTeLHy5OnTRLyWnysTs6ywC62xT/Z+zDxcbLRz95A921lLNpP3Lw0UVG0EMTf+Tbo3mM",
+				        "oIfW/citR88YQI8N+4FH31jFCTS/YdMPnPnGIUbQQ3N+YMg3zjCCHnryAx++sYQB9NiKH9nvaAUn0PKGAz9y3dECRtBD431ktoPz",
+				        "i5iHfvt1jx39XoA8ttkH1jravAmzvuGuDxx1dHcR89BUHxjpaOoi5qGXPvDP0csFzGMLfWCbo4WbMNsbzvnALUfrFjEPDfPrJnlj",
+				        "2SLmoU9+3RtvrFrAPLbHr1viVy1akTdc8etWuMIuvHoL3Whe3nDDBxaYKRU/xWcm+i3moQs+sL5c0T2AZ0zbYP4f3G/z/0VgNJNa",
+				        "MvD/BRQq+CxzHgAA"
+				    }),
+				    Source = Binary.Decompress(Binary.FromText(Snapshot, BinaryEncoding.Base64), Compression.GZip),
+				    Parsed = Csv.Document(Source, [Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Parsed, [PromoteAllScalars=true]),
+				    Nulls = Table.ReplaceValue(Header, "", null, Replacer.ReplaceValue, Table.ColumnNames(Header)),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"Scenario Key", type text}, {"Quarter End", type date}, {"Capital Call", type number}, {"Distribution", type number}, {"NAV", type number}, {"Net Cash Flow", type number}, {"Cumulative Net", type number}, {"Benchmark Level", type number}}, "en-US")
+				in
+				    Typed

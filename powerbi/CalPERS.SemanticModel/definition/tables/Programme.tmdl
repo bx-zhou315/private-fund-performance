@@ -1,0 +1,27 @@
+table Programme
+
+	column 'Programme Key'
+		dataType: string
+		sourceColumn: Programme Key
+		summarizeBy: none
+		isHidden
+
+	column Programme
+		dataType: string
+		sourceColumn: Programme
+		summarizeBy: none
+
+	partition Programme = m
+		mode: import
+		source =
+				let
+				    Snapshot = Text.Combine({
+				        "H4sIAAAAAAAC/wsoyk8vSszNTVXwTq3UCYDxeLkKijLLEktS41MLSzNLQDJgroIrmIuQTklNKoFLugA5vFwAAijWa1MAAAA="
+				    }),
+				    Source = Binary.Decompress(Binary.FromText(Snapshot, BinaryEncoding.Base64), Compression.GZip),
+				    Parsed = Csv.Document(Source, [Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Parsed, [PromoteAllScalars=true]),
+				    Nulls = Table.ReplaceValue(Header, "", null, Replacer.ReplaceValue, Table.ColumnNames(Header)),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"Programme Key", type text}, {"Programme", type text}}, "en-US")
+				in
+				    Typed

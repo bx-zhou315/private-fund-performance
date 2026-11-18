@@ -1,0 +1,72 @@
+name: Reconcile CalPERS SQL and Python
+
+on:
+  push:
+    paths:
+      - 'data/**'
+      - 'src/**'
+      - 'outputs/**'
+      - 'sql/**'
+      - 'powerbi/**'
+      - 'tests/**'
+      - 'requirements.txt'
+      - '.github/workflows/calpers-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: calpers-demo
+      PGDATABASE: postgres
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_PASSWORD: calpers-demo
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Rebuild Python and validate the workbook inputs
+        run: |
+          python -m pip install -r requirements.txt
+          python src/analyse.py
+          python src/check_pilot.py
+          python src/cashflows.py
+          python -m unittest discover -s tests
+      - name: Reconcile PostgreSQL exports and build the Power BI Project
+        run: |
+          mkdir -p powerbi/.build
+          psql -X -f sql/calpers_snapshot.sql
+          python powerbi/build_project.py --check-sql
+      - name: Load the generated semantic model with Microsoft Analysis Services
+        run: |
+          model_check="$RUNNER_TEMP/calpers-tmdl-check"
+          dotnet new console --framework net8.0 --output "$model_check"
+          dotnet add "$model_check" package Microsoft.AnalysisServices --version 19.114.8
+          cat > "$model_check/Program.cs" <<'CS'
+          using Microsoft.AnalysisServices.Tabular;
+
+          var model = TmdlSerializer.DeserializeDatabaseFromFolder(args[0]).Model;
+          if (model.Tables.Count != 7 || model.Relationships.Count != 6)
+              throw new InvalidOperationException("Unexpected model shape.");
+          if (!model.Tables["Funds"].Measures.Any(m => m.Name == "Median DPI"))
+              throw new InvalidOperationException("Median DPI is missing.");
+          Console.WriteLine($"Validated {model.Tables.Count} tables, {model.Relationships.Count} relationships and {model.Tables.Sum(t => t.Measures.Count)} measures.");
+          CS
+          dotnet run --project "$model_check" -- "$GITHUB_WORKSPACE/powerbi/CalPERS.SemanticModel/definition"
