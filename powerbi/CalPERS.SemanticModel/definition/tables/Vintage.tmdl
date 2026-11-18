@@ -1,0 +1,23 @@
+table Vintage
+
+	column Vintage
+		dataType: int64
+		sourceColumn: Vintage
+		summarizeBy: none
+		formatString: 0
+
+	partition Vintage = m
+		mode: import
+		source =
+				let
+				    Snapshot = Text.Combine({
+				        "H4sIAAAAAAAC/yXNOw6AMBAD0T5S7rI2370IPQWKaFLl/gKGZio/+bj7ONtVizL3WhwRVHSiM13oSjf67/Or2MsUJZRQQgkllFDm",
+				        "y1hjjTXWWL/2AR/ivn6lAAAA"
+				    }),
+				    Source = Binary.Decompress(Binary.FromText(Snapshot, BinaryEncoding.Base64), Compression.GZip),
+				    Parsed = Csv.Document(Source, [Delimiter=",", Columns=1, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Parsed, [PromoteAllScalars=true]),
+				    Nulls = Table.ReplaceValue(Header, "", null, Replacer.ReplaceValue, Table.ColumnNames(Header)),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"Vintage", Int64.Type}}, "en-US")
+				in
+				    Typed

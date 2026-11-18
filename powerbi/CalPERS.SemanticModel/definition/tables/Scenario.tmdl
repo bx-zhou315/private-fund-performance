@@ -1,0 +1,82 @@
+table Scenario
+
+	measure 'Base XIRR' = CALCULATE ( MAX ( Scenario[XIRR] ), REMOVEFILTERS ( Scenario ), Scenario[Scenario Key] = "base" )
+		formatString: 0.00%
+
+	measure 'Delayed XIRR' = CALCULATE ( MAX ( Scenario[XIRR] ), REMOVEFILTERS ( Scenario ), Scenario[Scenario Key] = "delayed" )
+		formatString: 0.00%
+
+	measure 'XIRR Change' = 100 * ( [Delayed XIRR] - [Base XIRR] )
+		formatString: 0.00" pp";-0.00" pp";0.00" pp"
+
+	column 'Scenario Key'
+		dataType: string
+		sourceColumn: Scenario Key
+		summarizeBy: none
+		isHidden
+
+	column 'Scenario Order'
+		dataType: int64
+		sourceColumn: Scenario Order
+		summarizeBy: none
+		isHidden
+
+	column Scenario
+		dataType: string
+		sourceColumn: Scenario
+		summarizeBy: none
+		sortByColumn: 'Scenario Order'
+
+	column XIRR
+		dataType: double
+		sourceColumn: XIRR
+		summarizeBy: none
+		formatString: 0.0%
+
+	column TVPI
+		dataType: double
+		sourceColumn: TVPI
+		summarizeBy: none
+		formatString: 0.00"x"
+
+	column 'KS PME'
+		dataType: double
+		sourceColumn: KS PME
+		summarizeBy: none
+		formatString: 0.00"x"
+
+	column 'Direct Alpha'
+		dataType: double
+		sourceColumn: Direct Alpha
+		summarizeBy: none
+		formatString: 0.0%
+
+	column 'Funding Trough'
+		dataType: double
+		sourceColumn: Funding Trough
+		summarizeBy: none
+		formatString: 0.00
+
+	column 'Terminal NAV'
+		dataType: double
+		sourceColumn: Terminal NAV
+		summarizeBy: none
+		formatString: 0.00
+
+	partition Scenario = m
+		mode: import
+		source =
+				let
+				    Snapshot = Text.Combine({
+				        "H4sIAAAAAAAC/22OQU8CQQyF7yT8h7lbNm2n0+kcMWpCiEqEEK8LO4FNcDEDHPj3Dho9eWrf6+vLt9zmoS390c3zFZa/4rV0ufxJ",
+				        "eJ+9vcFqvZjBfOkWz4/w0Je8Pbvp4XPfwtNl6Pph51bleNntYZXLRz+0B/cyXY9Hm/aUAeG+Drf93huSZDF4SexjsGQeuCFUCWoW",
+				        "SSxIEqAGVdU0mCJT5FAfkTgoWU1ZYvYoBJNIjUktSpFQNAW55cajLh/aa+6AKurpXPrN5dwfh5O7I3fNbblRsHCUhJESMrL8B4FN",
+				        "EvSChhYjM5GHSa3HZCFVKKpG0KBaMawhkugDJa1XtR+ML6xHrFFeAQAA"
+				    }),
+				    Source = Binary.Decompress(Binary.FromText(Snapshot, BinaryEncoding.Base64), Compression.GZip),
+				    Parsed = Csv.Document(Source, [Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Header = Table.PromoteHeaders(Parsed, [PromoteAllScalars=true]),
+				    Nulls = Table.ReplaceValue(Header, "", null, Replacer.ReplaceValue, Table.ColumnNames(Header)),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"Scenario Key", type text}, {"Scenario Order", Int64.Type}, {"Scenario", type text}, {"XIRR", type number}, {"TVPI", type number}, {"KS PME", type number}, {"Direct Alpha", type number}, {"Funding Trough", type number}, {"Terminal NAV", type number}}, "en-US")
+				in
+				    Typed

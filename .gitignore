@@ -2,3 +2,8 @@
 __pycache__/
 .DS_Store
 .ipynb_checkpoints/
+
+# Local Power BI workspace files
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+powerbi/.build/

@@ -1,0 +1,17 @@
+model Model
+	culture: en-US
+	sourceQueryCulture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+	annotation PBI_TimeIntelligenceEnabled = 0
+
+ref table Programme
+ref table Vintage
+ref table Manager
+ref table Funds
+ref table 'Case Funds'
+ref table Scenario
+ref table 'Cash Flow'

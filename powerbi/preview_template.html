@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CalPERS Private Markets Review</title>
+<style>
+:root{color-scheme:light;--navy:#122b3b;--ink:#183243;--muted:#526579;--teal:#007e77;--blue:#4d62a1;--surface:#fff;--page:#eef3f6;--line:#d8e3ea}
+*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:var(--navy);color:#fff}header>div,main,footer,nav{max-width:1320px;margin:auto;padding-left:32px;padding-right:32px}
+header>div{padding-top:35px;padding-bottom:28px}header p{margin:5px 0 0;color:#c2d6de}header .eyebrow{color:#80d5c8;font-size:.76rem;letter-spacing:.15em;font-weight:750}
+h1{font-size:clamp(29px,4.2vw,48px);line-height:1.15;letter-spacing:-.042em;margin:5px 0 8px}
+.nav-shell{background:#fcfefe;border-bottom:1px solid var(--line)}nav{display:flex;gap:24px;overflow-x:auto}
+nav button{color:var(--muted);background:none;border:0;border-bottom:3px solid transparent;padding:14px 0 11px;font:inherit;font-weight:650;white-space:nowrap;cursor:pointer}
+nav button[aria-selected=true]{color:var(--teal);border-bottom-color:var(--teal)}
+button:focus-visible,select:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+main{padding-top:23px;padding-bottom:20px}section[hidden]{display:none}
+.section-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px}
+h2{font-size:27px;line-height:1.16;letter-spacing:-.04em;margin:0 0 5px}h3{font-size:16px;line-height:1.3;margin:0}
+p{margin:0}.sub,.footnote,.caption{color:var(--muted)}.footnote,.caption{font-size:13px}.footnote{margin:12px 0 0}
+.filters{display:flex;flex-wrap:wrap;gap:12px}.filters label{font-size:12px;color:var(--muted);font-weight:650}
+select{display:block;width:100%;min-width:129px;padding:8px 26px 8px 9px;margin-top:3px;font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1px solid #a8becb;border-radius:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px;margin:0 0 14px}
+.kpi,.panel,.finding{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.kpi{padding:12px 16px}.kpi strong{display:block;color:var(--navy);font-size:clamp(22px,3vw,33px);letter-spacing:-.045em;font-variant-numeric:tabular-nums;line-height:1.22}
+.kpi small{color:var(--muted);font-size:12px;font-weight:650}.finding{padding:11px 14px;margin:0 0 14px;border-left:3px solid var(--teal)}
+.finding strong{color:var(--navy)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.panel{padding:13px 15px;margin-bottom:13px;min-width:0}
+.figure-head{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;margin-bottom:8px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+.legend span:before{content:"";width:8px;height:8px;display:inline-block;margin-right:5px;vertical-align:1px;border-radius:2px;background:var(--key)}
+canvas{width:100%;height:220px;display:block}.tall{height:285px}
+.scroll{overflow:auto}table{border-collapse:collapse;width:100%;margin-top:8px;white-space:nowrap}
+th,td{text-align:right;padding:7px 9px;border-bottom:1px solid #e3ebef;font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left;padding-left:1px}th{font-size:12px;color:#3d5767}td{font-size:13px}
+tbody tr:last-child td{border-bottom:0}tbody tr:hover{background:#f2f7f8}
+.tag{color:#835030;font-weight:650}footer{padding-top:0;padding-bottom:24px;font-size:12px;color:var(--muted)}
+footer a{color:var(--teal)}
+@media(max-width:760px){header>div,main,footer,nav{padding-left:16px;padding-right:16px}.grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}nav{gap:17px}.section-head{align-items:flex-start}}
+</style>
+</head>
+<body>
+<header><div>
+  <p class="eyebrow">CALPERS</p>
+  <h1>Private Markets Review</h1>
+  <p>CalPERS holdings snapshot at 31 March 2026</p>
+</div></header>
+<div class="nav-shell"><nav aria-label="Report pages" role="tablist">
+  <button id="tab-portfolio" type="button" role="tab" aria-controls="portfolio" aria-selected="true">Portfolio &amp; vintage</button>
+  <button id="tab-manager" type="button" role="tab" aria-controls="manager" aria-selected="false" tabindex="-1">Manager review</button>
+  <button id="tab-timing" type="button" role="tab" aria-controls="timing" aria-selected="false" tabindex="-1">Distribution timing</button>
+</nav></div>
+<main>
+<section id="portfolio" role="tabpanel" aria-labelledby="tab-portfolio">
+  <div class="section-head">
+    <div><h2>Portfolio &amp; vintage</h2><p class="sub">Compare distributions and total value per dollar paid in across vintages.</p></div>
+    <div class="filters">
+      <label>Programme<select id="programme"><option value="">All programmes</option><option>Private Equity</option><option>Private Debt</option></select></label>
+      <label>Vintage<select id="vintage"><option value="">All vintages</option></select></label>
+    </div>
+  </div>
+  <div id="portfolio-kpis" class="kpis" aria-live="polite"></div>
+  <div id="portfolio-insight" class="finding"></div>
+  <div class="grid">
+    <div class="panel"><div class="figure-head"><h3>Median DPI by vintage</h3><div class="legend programme-legend"></div></div>
+      <canvas id="dpi-chart" role="img" aria-label="Median distributions to paid-in capital by vintage"></canvas><p class="caption">Cash distributed per dollar paid in</p>
+    </div>
+    <div class="panel"><div class="figure-head"><h3>Median TVPI by vintage</h3><div class="legend programme-legend"></div></div>
+      <canvas id="tvpi-chart" role="img" aria-label="Median total value to paid-in capital by vintage"></canvas><p class="caption">Cash distributed plus residual value per dollar paid in</p>
+    </div>
+  </div>
+  <div class="panel"><h3>Data quality by programme</h3><div class="scroll"><table id="quality"></table></div></div>
+  <p class="footnote">Vintage is the year of CalPERS’ first cash flow. Medians include early-life funds when the ratio can be computed.</p>
+</section>
+<section id="manager" role="tabpanel" aria-labelledby="tab-manager" hidden>
+  <div class="section-head">
+    <div><h2>Manager due diligence</h2><p class="sub">Advent Global Private Equity and Ares Senior Direct Lending case studies.</p></div>
+    <div class="filters"><label>Manager<select id="manager-filter"><option value="">Both managers</option><option>Advent International</option><option>Ares Management</option></select></label></div>
+  </div>
+  <div id="manager-insight" class="finding"></div>
+  <div class="panel"><div class="figure-head"><h3>Distributed and unrealised value per dollar paid in</h3><div class="legend" id="value-legend"></div></div>
+    <canvas id="manager-chart" role="img" aria-label="Stacked columns of distributed and residual value for each selected case-study fund"></canvas></div>
+  <div class="panel"><h3>Track record and eligible peers</h3><div class="scroll"><table id="track"></table></div></div>
+  <p class="footnote">Peer groups match programme and vintage. Early-life funds remain visible. Quartiles require at least eight eligible funds.</p>
+</section>
+<section id="timing" role="tabpanel" aria-labelledby="tab-timing" hidden>
+  <div class="section-head"><div><h2>Distribution timing</h2><p class="sub">Illustrative Takahashi–Alexander-style scenario model</p></div></div>
+  <div id="cash-kpis" class="kpis"></div>
+  <div class="finding"><strong>Same proceeds, weaker annualised return.</strong> Moving all distributions back one year leaves TVPI at 2.11x and pushes benchmark-relative performance below 1.0x.</div>
+  <div class="panel"><div class="figure-head"><h3>Cumulative net cash flow per 100 committed</h3><div id="timing-legend" class="legend"></div></div>
+    <canvas id="timing-chart" class="tall" role="img" aria-label="Cumulative net cash flows for the base and one-year delayed distribution scenarios"></canvas></div>
+  <div class="panel"><h3>Scenario comparison against the S&amp;P 500 total-return benchmark</h3><div class="scroll"><table id="scenario-results"></table></div></div>
+  <p class="footnote">Calls and nominal distributions are identical in both scenarios. Figures use modelled cash flows. Delayed interim NAV is unavailable.</p>
+</section>
+</main>
+<footer>Interactive browser companion to the Power BI project. <a href="https://github.com/bx-zhou315/private-fund-performance/tree/calpers-powerbi">Project methodology and source</a></footer>
+<script id="snapshot" type="application/json">/* SNAPSHOT_DATA */</script>
+<script>
+"use strict";
+const data = JSON.parse(document.getElementById("snapshot").textContent);
+const byId = id => document.getElementById(id);
+const programmeNames = ["Private Equity","Private Debt"];
+const colours = ["#007e77","#4d62a1"];
+const value = (n, fn) => n === null || n === undefined ? "—" : fn(n);
+const multiple = n => value(n, x => x.toFixed(2)+"x");
+const percentage = n => value(n, x => (100*x).toFixed(1)+"%");
+const kpi = (label, result) => '<div class="kpi"><small>'+label+'</small><strong>'+result+'</strong></div>';
+const bill = n => "$"+(n/1e9).toFixed(2)+"bn";
+const legend = labels => labels.map((label,i) => '<span style="--key:'+colours[i]+'">'+label+'</span>').join("");
+const table = (target, headings, rows) => {
+  const row = (cells,type) => "<tr>"+cells.map(x=>"<"+type+(type==="th"?' scope="col"':"")+">"+x+"</"+type+">").join("")+"</tr>";
+  byId(target).innerHTML = "<thead>"+row(headings,"th")+"</thead><tbody>"+rows.map(x=>row(x,"td")).join("")+"</tbody>";
+};
+const vintage = byId("vintage");
+[...new Set(data.funds.map(f=>f[1]))].sort((a,b)=>b-a).forEach(y => vintage.add(new Option(y,y)));
+document.querySelectorAll(".programme-legend").forEach(el=>{el.innerHTML=legend(programmeNames);});
+byId("value-legend").innerHTML=legend(["DPI • distributed","RVPI • unrealised"]);
+byId("timing-legend").innerHTML=legend(["Base case","Distributions +1 year"]);
+
+function plot(id, series, labels, options={}){
+  const canvas=byId(id);
+  const ctx=canvas.getContext("2d");
+  const width=canvas.clientWidth, height=canvas.clientHeight;
+  if(!width || !labels.length) return;
+  const density=window.devicePixelRatio||1;
+  canvas.width=width*density;canvas.height=height*density;ctx.scale(density,density);
+  const left=45,right=width-18,top=13,bottom=height-30;
+  const all=series.flat().filter(x=>x!==null);
+  const valuesAt=i=>series.reduce((sum,s)=>sum+(s[i]??0),0);
+  const maxValue=Math.max(0,...(options.stacked?labels.map((_,i)=>valuesAt(i)):all));
+  const minValue=Math.min(0,...all);
+  const stepRaw=(maxValue-minValue)/4 || 1;
+  const magnitude=10**Math.floor(Math.log10(stepRaw));
+  const step=([1,2,2.5,5,10].find(x=>x>=stepRaw/magnitude)||10)*magnitude;
+  const max=Math.max(step,Math.ceil(maxValue/step)*step), min=Math.floor(minValue/step)*step;
+  const y=n=>bottom-(n-min)/(max-min)*(bottom-top);
+  const x=i=>labels.length===1?(left+right)/2:(options.stacked
+    ?left+(right-left)*(i+0.5)/labels.length:left+(right-left)*i/(labels.length-1));
+  ctx.font="11px system-ui";ctx.textBaseline="middle";ctx.textAlign="right";
+  for(let n=min;n<=max+step/10;n+=step){
+    const tick=y(n);
+    ctx.strokeStyle=Math.abs(n)<step/10?"#a8bbca":"#e3ebef";
+    ctx.beginPath();ctx.moveTo(left,tick);ctx.lineTo(right,tick);ctx.stroke();
+    ctx.fillStyle="#526579";ctx.fillText(Number(n.toFixed(2))+(options.unit||""),left-5,tick);
+  }
+  ctx.textAlign="center";
+  const stride=Math.ceil(labels.length/(options.stacked?Math.max(2,Math.floor(width/70)):Math.max(2,Math.floor(width/57))));
+  const labelIndices=labels.map((_,i)=>i).filter(i => i%stride===0);
+  if(labels.length>1&&labelIndices.at(-1)!==labels.length-1) {
+    if(x(labels.length-1)-x(labelIndices.at(-1))<32) labelIndices.pop();
+    labelIndices.push(labels.length-1);
+  }
+  for(const i of labelIndices){ ctx.fillText(labels[i],Math.min(right-7,Math.max(left+5,x(i))),height-13); }
+  series.forEach((values,s)=>{
+    ctx.strokeStyle=colours[s];ctx.fillStyle=colours[s];ctx.lineWidth=2.25;
+    if(options.stacked){
+      const barWidth=Math.min(64,(right-left)/labels.length*.62);
+      values.forEach((n,i)=>{
+        const prior=s?series[0][i]:0;
+        ctx.fillRect(x(i)-barWidth/2,y(prior+n),barWidth,y(prior)-y(prior+n));
+      });
+    } else {
+      ctx.beginPath();let active=false;
+      values.forEach((n,i)=>{
+        if(n===null){if(!options.connectGaps)active=false;return;}
+        if(active)ctx.lineTo(x(i),y(n));else ctx.moveTo(x(i),y(n));
+        active=true;
+      });ctx.stroke();
+      if(!options.noDots){values.forEach((n,i)=>{
+        if(n!==null){ctx.beginPath();ctx.arc(x(i),y(n),3,0,2*Math.PI);ctx.fill();}
+      });}
+    }
+  });
+  canvas.onmousemove=event=>{
+    const pixel=event.clientX-canvas.getBoundingClientRect().left;
+    const index=labels.reduce((nearest,_,i)=>Math.abs(x(i)-pixel)<Math.abs(x(nearest)-pixel)?i:nearest,0);
+    const entries=series.map((values,i)=>values[index]===null?null:options.names[i]+" "+values[index].toFixed(2)+(options.unit||"")).filter(Boolean);
+    canvas.title=entries.length ? labels[index]+": "+entries.join(" | ") : "";
+  };
+}
+
+function renderPortfolio(){
+  const p=byId("programme").value,y=byId("vintage").value;
+  const filtered=data.funds.filter(f=>(!p||f[0]===p)&&(!y||f[1]===Number(y)));
+  const sum=index=>filtered.reduce((n,f)=>n+f[index],0);
+  byId("portfolio-kpis").innerHTML=kpi("Funds",filtered.length)+kpi("Paid in",bill(sum(2)))
+    +kpi("Residual NAV",bill(sum(3)))+kpi("IRR review flags",filtered.filter(f=>f[7]).length);
+  const cohorts=data.cohorts.filter(c=>(!p||c[0]===p)&&(!y||c[1]===Number(y)));
+  const insight=byId("portfolio-insight");
+  if(!y&&!p) insight.innerHTML="<strong>2022 vintage.</strong> Median DPI is 0.24x in private debt and 0.02x in private equity.";
+  else if(cohorts.length) insight.textContent=cohorts.length+" programme–vintage cohort"+(cohorts.length===1?"":"s")+" in this selection.";
+  else insight.textContent="No funds match this programme and vintage.";
+  const years=y?[Number(y)]:[...new Set(cohorts.map(r=>r[1]))].sort((a,b)=>a-b);
+  for(const [id,col] of [["dpi-chart",4],["tvpi-chart",5]]){
+    const indexed=new Map(cohorts.map(r=>[r[0]+r[1],r[col]]));
+    plot(id,programmeNames.map(n=>years.map(year=>indexed.get(n+year)??null)),years,
+      {unit:"x",connectGaps:true,names:programmeNames});
+  }
+  table("quality",["Programme","Fund rows","Multiples reconciled","No comparable multiple","Review difference","IRR flags"],
+    programmeNames.filter(n=>!p||n===p).map(n=>{
+      const group=filtered.filter(f=>f[0]===n);
+      return [n,group.length,...["Within rounding","No comparable multiple","Review difference"].map(s=>group.filter(f=>f[6]===s).length),
+        group.filter(f=>f[7]).length];
+    }));
+}
+function renderManager(){
+  const manager=byId("manager-filter").value;
+  const funds=data.funds.filter(f=>f[8]&&(!manager||f[8]===manager)).sort((a,b)=>a[1]-b[1]||a[9].localeCompare(b[9]));
+  byId("manager-insight").innerHTML=manager==="Ares Management"
+    ?"<strong>Ares Senior Direct Lending II.</strong> DPI is 0.64x. CalPERS marks both Ares case funds as early-life."
+    :"<strong>Advent GPE IX.</strong> TVPI is 1.49x versus a 1.53x eligible vintage median. The fund has distributed about 27% of its total value.";
+  plot("manager-chart",[funds.map(f=>f[4]),funds.map(f=>f[10])],funds.map(f=>f[9]),
+    {unit:"x",stacked:true,names:["DPI","RVPI"]});
+  table("track",["Fund","Vintage","DPI","RVPI","TVPI","Realised share","Peer n","Peer median","Quartile","Review status"],
+    funds.map(f=>[f[9],f[1],multiple(f[4]),multiple(f[10]),multiple(f[5]),percentage(f[11]),
+      value(f[12],String),multiple(f[13]),value(f[14],x=>"Q"+x),f[15]?'<span class="tag">Early life</span>'
+      :f[14]===null?"Small cohort":"Eligible"]));
+}
+function renderTiming(){
+  const base=data.results.base,delayed=data.results.delayed;
+  byId("cash-kpis").innerHTML=kpi("Base XIRR",(100*base.xirr).toFixed(2)+"%")
+    +kpi("Delayed XIRR",(100*delayed.xirr).toFixed(2)+"%")+kpi("Change",(100*(delayed.xirr-base.xirr)).toFixed(2)+" pp");
+  const quarterLabels=data.flows.delayed.map(r=>r[0].slice(0,7));
+  const baseLevels=quarterLabels.map((_,i)=>data.flows.base[i]?.[1]??null);
+  plot("timing-chart",[baseLevels,data.flows.delayed.map(r=>r[1])],quarterLabels,
+    {noDots:true,names:["Base","Delayed"]});
+  table("scenario-results",["Scenario","XIRR","TVPI","KS-PME","Direct Alpha","Funding trough","Terminal NAV"],
+    [["Base case",base],["Distributions +1 year",delayed]].map(([label,r])=>[label,(r.xirr*100).toFixed(2)+"%",
+      multiple(r.tvpi),multiple(r.ks_pme),(r.direct_alpha*100).toFixed(2)+"%",r.trough.toFixed(2),r.terminal_nav.toFixed(2)]));
+}
+const renders={portfolio:renderPortfolio,manager:renderManager,timing:renderTiming};
+let current="portfolio";
+const tabs=[...document.querySelectorAll("[role=tab]")];
+function selectTab(button){
+  current=button.getAttribute("aria-controls");
+  for(const tab of tabs){
+    const active=button===tab;
+    tab.setAttribute("aria-selected",String(active));tab.tabIndex=active?0:-1;
+    byId(tab.getAttribute("aria-controls")).hidden=!active;
+  }
+  renders[current]();
+}
+tabs.forEach((button,i)=>{
+  button.onclick=()=>selectTab(button);
+  button.onkeydown=event=>{
+    const positions={ArrowRight:(i+1)%tabs.length,ArrowLeft:(i+tabs.length-1)%tabs.length,Home:0,End:tabs.length-1};
+    const index=positions[event.key];
+    if(index===undefined)return;
+    event.preventDefault();tabs[index].focus();selectTab(tabs[index]);
+  };
+});
+byId("programme").onchange=renderPortfolio;
+vintage.onchange=renderPortfolio;
+byId("manager-filter").onchange=renderManager;
+window.addEventListener("resize",()=>renders[current]());
+renderPortfolio();
+</script>
+</body>
+</html>

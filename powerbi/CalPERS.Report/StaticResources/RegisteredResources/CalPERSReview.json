@@ -1,0 +1,17 @@
+{
+  "name": "CalPERS Review",
+  "dataColors": [
+    "#007F78",
+    "#425CA4",
+    "#C16A39",
+    "#697B8F",
+    "#359C96",
+    "#6474AE"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#142C3D",
+  "tableAccent": "#007F78",
+  "good": "#007F78",
+  "bad": "#AD442D",
+  "neutral": "#526579"
+}
