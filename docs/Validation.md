@@ -29,3 +29,5 @@ The six flagged IRRs are each reported as 0.1% alongside a 1.2x–1.6x reported 
 The independent check solves XIRR via Newton iteration and uses annual benchmark returns to reproduce quarter-end index levels. It compares every net cash flow, cumulative cash flow and benchmark level, and confirms that the delay shifts all distributions by four quarters. The delayed path has no interim NAV estimate.
 
 For Desktop acceptance, open the PBIP, refresh the seven Import tables, run the three DAX checks and exercise the Programme, Vintage and Manager slicers. Expected DAX query outputs are the portfolio counts above, 0.24x for 12 private debt observations and 0.02x for 32 private equity observations in 2022, and a −2.56 percentage-point XIRR change. The report definition files pass Microsoft’s published JSON schemas. Opening, refreshing and rendering in Power BI Desktop require Windows.
+
+[GitHub Actions](https://github.com/bx-zhou315/private-fund-performance/actions?query=branch%3Acalpers-powerbi) rebuilds the original Python outputs, runs their tests, reconciles all PostgreSQL exports and checks the semantic-model definition.

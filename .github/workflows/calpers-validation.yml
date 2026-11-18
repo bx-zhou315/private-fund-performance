@@ -54,3 +54,19 @@ jobs:
           mkdir -p powerbi/.build
           psql -X -f sql/calpers_snapshot.sql
           python powerbi/build_project.py --check-sql
+      - name: Load the generated semantic model with Microsoft Analysis Services
+        run: |
+          model_check="$RUNNER_TEMP/calpers-tmdl-check"
+          dotnet new console --framework net8.0 --output "$model_check"
+          dotnet add "$model_check" package Microsoft.AnalysisServices --version 19.114.8
+          cat > "$model_check/Program.cs" <<'CS'
+          using Microsoft.AnalysisServices.Tabular;
+
+          var model = TmdlSerializer.DeserializeDatabaseFromFolder(args[0]).Model;
+          if (model.Tables.Count != 7 || model.Relationships.Count != 6)
+              throw new InvalidOperationException("Unexpected model shape.");
+          if (!model.Tables["Funds"].Measures.Any(m => m.Name == "Median DPI"))
+              throw new InvalidOperationException("Median DPI is missing.");
+          Console.WriteLine($"Validated {model.Tables.Count} tables, {model.Relationships.Count} relationships and {model.Tables.Sum(t => t.Measures.Count)} measures.");
+          CS
+          dotnet run --project "$model_check" -- "$GITHUB_WORKSPACE/powerbi/CalPERS.SemanticModel/definition"
